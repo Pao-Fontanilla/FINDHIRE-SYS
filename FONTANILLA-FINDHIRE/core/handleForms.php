@@ -99,38 +99,50 @@ if (isset($_POST['action']) && $_POST['action'] == 'create_job_post') {
 if (isset($_POST['action']) && $_POST['action'] == 'apply' && $_SESSION['role'] == 'applicant') {
     $job_post_id = $_POST['job_post_id'];
 
-    // Path relative to the 'core' folder
-    $resume_path = '../uploads/' . $_FILES['resume']['name'];
+    // Get the uploaded file's MIME type and extension
+    $file_type = mime_content_type($_FILES['resume']['tmp_name']);
+    $file_extension = strtolower(pathinfo($_FILES['resume']['name'], PATHINFO_EXTENSION));
 
-    // Move the uploaded resume file to the 'uploads' directory
-    if (move_uploaded_file($_FILES['resume']['tmp_name'], $resume_path)) {
-        $applicant_id = $_SESSION['user_id'];  // Get the current applicant's ID
+    // Ensure the file is a PDF
+    if ($file_type === 'application/pdf' && $file_extension === 'pdf') {
+        // Path relative to the 'core' folder
+        $resume_path = '../uploads/' . $_FILES['resume']['name'];
 
-        try {
-            // Attempt to apply for the job
-            $result = applyToJob($applicant_id, $job_post_id, $resume_path, $pdo);
+        // Move the uploaded resume file to the 'uploads' directory
+        if (move_uploaded_file($_FILES['resume']['tmp_name'], $resume_path)) {
+            $applicant_id = $_SESSION['user_id'];  // Get the current applicant's ID
 
-            if ($result) {
-                // Redirect with success message and job_post_id
-                header("Location: ../viewJobs.php?success=1&job_post_id=$job_post_id");
-                exit();
-            } else {
-                // Redirect with error flag and job_post_id
-                header("Location: ../viewJobs.php?error=1&job_post_id=$job_post_id");
+            try {
+                // Attempt to apply for the job
+                $result = applyToJob($applicant_id, $job_post_id, $resume_path, $pdo);
+
+                if ($result) {
+                    // Redirect with success message and job_post_id
+                    header("Location: ../viewJobs.php?success=1&job_post_id=$job_post_id");
+                    exit();
+                } else {
+                    // Redirect with error flag and job_post_id
+                    header("Location: ../viewJobs.php?error=1&job_post_id=$job_post_id");
+                    exit();
+                }
+            } catch (PDOException $e) {
+                // Log error and redirect with an error flag
+                error_log("Error applying for job: " . $e->getMessage());
+                header("Location: ../viewJobs.php?error=2&job_post_id=$job_post_id");
                 exit();
             }
-        } catch (PDOException $e) {
-            // Log error and redirect with an error flag
-            error_log("Error applying for job: " . $e->getMessage());
-            header("Location: ../viewJobs.php?error=2&job_post_id=$job_post_id");
+        } else {
+            // Handle file upload failure
+            header("Location: ../viewJobs.php?error=3&job_post_id=$job_post_id");
             exit();
         }
     } else {
-        // Handle file upload failure
-        header("Location: ../viewJobs.php?error=3&job_post_id=$job_post_id");
+        // If the file is not a PDF, redirect with an error
+        header("Location: ../viewJobs.php?error=4&job_post_id=$job_post_id");
         exit();
     }
 }
+
 
 // Handle message sending
 if (isset($_POST['action']) && $_POST['action'] == 'send_message') {
@@ -170,25 +182,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'update_application_status' && 
     } catch (PDOException $e) {
         // Optionally log the error or handle it
         error_log("Error updating application status: " . $e->getMessage());
-    }
-}
-
-
-// Handle deleting a job post (HR role)
-if (isset($_GET['delete_id']) && $_SESSION['role'] == 'HR') {
-    $job_post_id = $_GET['delete_id'];  // Get the job post ID to be deleted
-
-    try {
-        // Attempt to delete the job post
-        $deleteResult = deleteJobPost($job_post_id, $pdo);
-        
-        // Redirect after successful deletion
-        header("Location: ../createPost.php?delete_success=1");
-        exit();
-    } catch (PDOException $e) {
-        // Handle deletion failure and redirect with error flag
-        header("Location: ../createPost.php?delete_error=1");
-        exit();
     }
 }
 

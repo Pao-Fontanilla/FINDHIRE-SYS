@@ -1,4 +1,4 @@
-<?php
+<?php 
 require 'core/dbConfig.php';
 require 'core/models.php';
 
@@ -14,6 +14,7 @@ $jobPosts = getJobPosts($pdo);
 // Handle success or error flags from query string
 $applicationSuccess = isset($_GET['success']) && $_GET['success'] == 1;
 $applicationError = isset($_GET['error']) && $_GET['error'] == 1;
+$fileTypeError = isset($_GET['error']) && $_GET['error'] == 4;  // Check for invalid file type error
 $job_post_id = isset($_GET['job_post_id']) ? $_GET['job_post_id'] : null;  // Get the job_post_id from the URL
 ?>
 <!DOCTYPE html>
@@ -45,6 +46,8 @@ $job_post_id = isset($_GET['job_post_id']) ? $_GET['job_post_id'] : null;  // Ge
                 <p class="success">Application submitted successfully!</p>
             <?php elseif ($applicationError && $job['job_post_id'] == $job_post_id): ?>
                 <p class="error">Failed to apply. Please try again.</p>
+            <?php elseif ($fileTypeError && $job['job_post_id'] == $job_post_id): ?>
+                <p class="error">Only PDF files are allowed. Please try again.</p>
             <?php endif; ?>
         </div>
     <?php endforeach; ?>

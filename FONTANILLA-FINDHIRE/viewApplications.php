@@ -21,8 +21,8 @@ $applications = getApplicationsByApplicant($applicant_id, $pdo);
     <link rel="stylesheet" type="text/css" href="styles/styles.css">
 </head>
 <body>
-    <h1>My Applications</h1>
-
+    <h1>MY APPLICATIONS</h1>
+    <a href="dashboard.php">Back to Dashboard</a><br>
     <?php if ($applications): ?>
         <table border="1">
             <tr>
@@ -41,7 +41,5 @@ $applications = getApplicationsByApplicant($applicant_id, $pdo);
     <?php else: ?>
         <p>You have not applied for any jobs yet.</p>
     <?php endif; ?>
-
-    <a href="dashboard.php">Back to Dashboard</a>
 </body>
 </html>
