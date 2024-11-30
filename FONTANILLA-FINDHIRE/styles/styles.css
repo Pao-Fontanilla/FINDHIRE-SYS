@@ -1,0 +1,293 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Main Content Wrapper */
+.container {
+    width: 100%;
+    max-width: 500px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.container form label {
+    display: block;
+    font-weight: bold;
+}
+
+/* Page Title */
+h1 {
+    font-size: 40px;
+    text-align: center;
+    color: #4a90e2;
+    margin-bottom: 20px;
+}
+
+/* Success and Error Messages */
+.success {
+    color: green;
+    font-weight: bold;
+    text-align: center;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* General Link Styling */
+a {
+    color: #4a90e2;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #357abd;
+    text-decoration: underline;
+}
+
+/* Form Styling */
+form {
+    margin-bottom: 10px;
+}
+
+form input[type="text"],
+form input[type="password"],
+form input[type="file"],
+form textarea,
+form select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+form button:hover {
+    background-color: #357abd;
+    transform: translateY(-3px);
+}
+
+/* Table Styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Buttons for Actions */
+a.button,
+form button {
+    display: inline-block;
+    padding: 8px 12px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    background-color: #4a90e2;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+a.button:hover {
+    background-color: #357abd;
+    transform: translateY(-3px);
+}
+
+a.delete {
+    background-color: red;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+a.delete:hover {
+    background-color: #cc0000;
+    transform: translateY(-3px);
+}
+
+/* Back to Dashboard Link */
+a.back {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #4a90e2;
+    color: white;
+    border-radius: 6px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+a.back:hover {
+    background-color: #357abd;
+    transform: translateY(-3px);
+}
+
+/* Layout for the row of buttons */
+.button-row {
+    display: flex;
+    justify-content: space-between; /* Distributes buttons evenly */
+    gap: 15px; /* Adds spacing between buttons */
+    margin-bottom: 20px; /* Adds space below the row */
+}
+
+/* Center the logout button below the others */
+.logout-row {
+    display: flex;
+    justify-content: center; /* Centers the logout button */
+    margin-top: 20px; /* Adds spacing above the logout button */
+}
+
+/* Button Styling */
+.button {
+    display: inline-block;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #4a90e2;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #357abd;
+    transform: translateY(-3px);
+}
+
+/* Logout button styling */
+.button.logout {
+    background-color: red;
+}
+
+.button.logout:hover {
+    background-color: #cc0000;
+}
+
+textarea {
+    width: 100%;               /* Ensure the textarea takes up the full width */
+    padding: 10px;             /* Add padding for better readability */
+    margin: 10px 0;            /* Add margin around the textarea */
+    border: 1px solid #ddd;   /* Border style */
+    border-radius: 4px;       /* Rounded corners */
+    box-sizing: border-box;   /* Ensure padding and border are included in the width */
+    font-size: 16px;           /* Increase font size for better readability */
+    height: 200px;             /* Set the height of the textarea */
+}
+
+/* Dashboard-specific Styles */
+.dashboard-container {
+    width: 100%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.dashboard-container p {
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.dashboard-container .button-row {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.dashboard-container .button {
+    padding: 25px 60px;  /* Increased padding to make buttons larger */
+    font-size: 25px;      /* Increased font size for better readability */
+    background-color: #4a90e2;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.dashboard-container .button:hover {
+    background-color: #357abd;
+    transform: translateY(-3px);
+}
+
+.dashboard-container .logout-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.dashboard-container .logout {
+    background-color: red;
+    padding: 15px 30px;  /* Increased padding for the logout button */
+    color: white;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.dashboard-container .logout:hover {
+    background-color: #cc0000;
+}
+
