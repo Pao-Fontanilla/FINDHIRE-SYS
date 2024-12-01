@@ -23,18 +23,27 @@ $applications = getApplicationsByApplicant($applicant_id, $pdo);
 <body>
     <h1>MY APPLICATIONS</h1>
     <a href="dashboard.php">Back to Dashboard</a><br>
+
     <?php if ($applications): ?>
         <table border="1">
             <tr>
                 <th>Job Title</th>
                 <th>Resume</th>
                 <th>Status</th>
+                <th>Actions</th>
             </tr>
             <?php foreach ($applications as $app): ?>
                 <tr>
                     <td><?php echo htmlspecialchars($app['job_title']); ?></td>
                     <td><a href="FONTANILLA-FINDHIRE/<?php echo htmlspecialchars($app['resume_path']); ?>" target="_blank">View Resume</a></td>
                     <td><?php echo ucfirst($app['status']); ?></td>
+                    <td>
+                    <a href="deleteApplication.php?application_id=<?php echo htmlspecialchars($app['application_id']); ?>" 
+   class="button delete">
+   Delete
+</a>
+
+                    </td>
                 </tr>
             <?php endforeach; ?>
         </table>

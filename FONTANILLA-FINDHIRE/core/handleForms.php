@@ -210,4 +210,29 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_job_post') {
     }
 }
 
+// Handle application deletion (applicant role)
+if (isset($_POST['action']) && $_POST['action'] == 'delete_application' && isset($_POST['application_id'])) {
+    $application_id = $_POST['application_id'];  // Get the application ID from the POST data
+
+    try {
+        // Call the function to delete the application (and resume file if needed)
+        $result = deleteApplication($application_id, $pdo);
+
+        if ($result) {
+            // Redirect back to viewApplications.php with a success message
+            header('Location: ../viewApplications.php?status=deleted');
+            exit();
+        } else {
+            // If deletion fails, show an error message
+            header('Location: ../viewApplications.php?error=delete_failed');
+            exit();
+        }
+    } catch (PDOException $e) {
+        // Handle any errors
+        error_log("Error during application deletion: " . $e->getMessage());
+        header('Location: ../viewApplications.php?error=delete_error');
+        exit();
+    }
+}
+
 ?>

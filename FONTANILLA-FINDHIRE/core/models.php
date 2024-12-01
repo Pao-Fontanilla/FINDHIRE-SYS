@@ -116,7 +116,7 @@ function getApplicationsByHR($hr_id, $pdo) {
 
 // Function to get all applications made by a specific applicant (based on applicant ID)
 function getApplicationsByApplicant($applicant_id, $pdo) {
-    $query = "SELECT a.resume_path, a.status, a.application_date, jp.title AS job_title 
+    $query = "SELECT a.application_id, a.resume_path, a.status, a.application_date, jp.title AS job_title 
               FROM applications a 
               JOIN job_posts jp ON a.job_post_id = jp.job_post_id 
               WHERE a.applicant_id = :applicant_id";
@@ -148,6 +148,49 @@ function getAllUsersExcept($user_id, $pdo) {
     $stmt = $pdo->prepare($query);
     $stmt->execute([':user_id' => $user_id]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);  // Return all users except the logged-in user
+}
+
+function getApplicationByID($application_id, $pdo) {
+    $query = "SELECT * FROM applications WHERE application_id = :application_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([':application_id' => $application_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function deleteApplication($application_id, $pdo) {
+    // First, fetch the application details to get the resume path
+    $query = "SELECT resume_path FROM applications WHERE application_id = :application_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':application_id', $application_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $application = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($application) {
+        // Path to the resume file in the uploads directory
+        $file_path = '../uploads/' . $application['resume_path'];
+
+        // Check if the file exists and delete it
+        if (file_exists($file_path)) {
+            unlink($file_path); // This deletes the file
+        }
+    }
+
+    // Now delete the application record from the database
+    $query = "DELETE FROM applications WHERE application_id = :application_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':application_id', $application_id, PDO::PARAM_INT);
+    return $stmt->execute();
+}
+
+// Function to fetch application details by application ID and applicant ID
+function getApplicationDetails($application_id, $applicant_id, $pdo) {
+    $query = "SELECT a.job_post_id, jp.title AS job_title, jp.description AS job_description, a.resume_path 
+              FROM applications a 
+              JOIN job_posts jp ON a.job_post_id = jp.job_post_id 
+              WHERE a.application_id = :application_id AND a.applicant_id = :applicant_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([':application_id' => $application_id, ':applicant_id' => $applicant_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);  // Return the application details or null if not found
 }
 
 ?>
